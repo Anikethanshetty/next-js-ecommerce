@@ -7,12 +7,10 @@ import { Form,FormControl,FormDescription,FormField, FormItem, FormLabel, FormMe
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { productDetailsSchema } from "@/schemas/products"
+import { createProduct } from "@/server/actions/productsCreate"
+import { useToast } from "@/hooks/use-toast"
 
-const productDetailsSchema = z.object({
-    name:z.string().min(1,"Required"),
-    url:z.string().url().min(1,"Invaild"),
-    description:z.string().optional()
-})
 
 
 export function ProductDetailsForm(){
@@ -24,9 +22,19 @@ export function ProductDetailsForm(){
             description:""
         }
     })
+
+    const {toast} = useToast()
     
-    function onSubmit(values:z.infer<typeof productDetailsSchema>){
-        console.log(values)
+   async function onSubmit(values:z.infer<typeof productDetailsSchema>){
+       const data = await createProduct(values)
+
+       if(data?.error && data?.message){
+            toast({
+                title:data?.error?"Error":"Success",
+                description:data?.message,
+                variant:data?.error?"destructive":"default"
+            })
+       }
     }
 
     return <Form {...form}>

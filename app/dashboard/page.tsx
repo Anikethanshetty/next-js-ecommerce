@@ -13,6 +13,8 @@ export default async function Dashboard(){
   if(products.length === 0) return <NoProducts />
 
   return(
-    null
+   <h2>
+    Products
+   </h2>
   )
 }
