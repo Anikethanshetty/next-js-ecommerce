@@ -12,7 +12,6 @@ import { createProduct } from "@/server/actions/productsCreate"
 import { useToast } from "@/hooks/use-toast"
 
 
-
 export function ProductDetailsForm(){
     const form = useForm<z.infer<typeof productDetailsSchema>>({
         resolver:zodResolver(productDetailsSchema),
@@ -96,5 +95,4 @@ export function ProductDetailsForm(){
                   </div>
         </form>
     </Form>
-
 }
